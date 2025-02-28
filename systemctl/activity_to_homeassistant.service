@@ -1,0 +1,22 @@
+# This is a template that can be used for setting up the service
+# with systemctl.
+
+[Unit]
+Description=A script that informs HomeAssistant that someone is using the computer
+After=network.target  # Ensures it runs after network services are available
+
+[Service]
+ExecStart=/directory/to/project/venv/bin/python /directory/to/project/activity_to_homeassistant.py
+WorkingDirectory=/directory/to/project
+Restart=always  # Automatically restart on failure
+RestartSec=5
+User=[username]
+Group=[usergroup]
+Environment="DISPLAY=:1"
+Environment="PYTHONUNBUFFERED=1"  # Optional: Ensures real-time output in logs
+Environment="XAUTHORITY=/home/[username]/.Xauthority"
+Environment="HASS_API_TOKEN=[hass_token]"
+
+[Install]
+WantedBy=multi-user.target
+
